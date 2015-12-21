@@ -1,0 +1,1 @@
+cmd_/home/vini/Dropbox/Vinicius/drivers/i2c_sys/at24.ko := arm-linux-gnueabihf-ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /home/vini/Dropbox/Vinicius/drivers/i2c_sys/at24.ko /home/vini/Dropbox/Vinicius/drivers/i2c_sys/at24.o /home/vini/Dropbox/Vinicius/drivers/i2c_sys/at24.mod.o

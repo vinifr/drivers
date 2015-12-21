@@ -1,0 +1,28 @@
+/*
+  ARM: iio: linux-sunxi: Adds support for Allwinner LRADC
+  
+  This patch adds support for the built-in LRADC in Allwinner A10 and 
+  A13 SoCs. It has DT-support and uses the new iio framework.
+
+ Signed-off-by: Vinicius Freire <viniciusfre@gmail.com>
+ */
+
+/*
+ ARM: sun4i: dt: Enable support for Allwinner LRADC in DTSI
+ 
+ Adds entry for built-in LRADC Allwinner for A10
+ 
+ Signed-off-by: Vinicius Freire <viniciusfre@gmail.com> 
+ */
+
+/*
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux@arm.linux.org.uk,
+	linus.walleij@linaro.org,
+	linux-kernel@vger.kernel.org,
+	andy.shevchenko@gmail.com,
+	tomasz.figa@gmail.com,
+	maxime.ripard@free-electrons.com,
+	linux-sunxi@googlegroups.com,
+
+*/

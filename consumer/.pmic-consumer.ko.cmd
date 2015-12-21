@@ -1,0 +1,1 @@
+cmd_/home/vini/Dropbox/Vinicius/drivers/consumer/pmic-consumer.ko := arm-linux-gnueabihf-ld -EL -r  -T /home/vini/projs/texas/kernel/linux/scripts/module-common.lds --build-id  -o /home/vini/Dropbox/Vinicius/drivers/consumer/pmic-consumer.ko /home/vini/Dropbox/Vinicius/drivers/consumer/pmic-consumer.o /home/vini/Dropbox/Vinicius/drivers/consumer/pmic-consumer.mod.o

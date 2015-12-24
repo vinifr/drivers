@@ -24,37 +24,9 @@
 #include <linux/i2c.h>
 #include <linux/platform_data/at24.h>
 
-/*
- * I2C EEPROMs from most vendors are inexpensive and mostly interchangeable.
- * Differences between different vendor product lines (like Atmel AT24C or
- * MicroChip 24LC, etc) won't much matter for typical read/write access.
- * There are also I2C RAM chips, likewise interchangeable. One example
- * would be the PCF8570, which acts like a 24c02 EEPROM (256 bytes).
- *
- * However, misconfiguration can lose data. "Set 16-bit memory address"
- * to a part with 8-bit addressing will overwrite data. Writing with too
- * big a page size also loses data. And it's not safe to assume that the
- * conventional addresses 0x50..0x57 only hold eeproms; a PCF8563 RTC
- * uses 0x51, for just one example.
- *
- * Accordingly, explicit board-specific configuration data should be used
- * in almost all cases. (One partial exception is an SMBus used to access
- * "SPD" data for DRAM sticks. Those only use 24c02 EEPROMs.)
- *
- * So this driver uses "new style" I2C driver binding, expecting to be
- * told what devices exist. That may be in arch/X/mach-Y/board-Z.c or
- * similar kernel-resident tables; or, configuration data coming from
- * a bootloader.
- *
- * Other than binding model, current differences from "eeprom" driver are
- * that this one handles write access and isn't restricted to 24c02 devices.
- * It also handles larger devices (32 kbit and up) with two-byte addresses,
- * which won't work on pure SMBus systems.
- */
 
 struct at24_data {
 	struct at24_platform_data chip;
-	//struct memory_accessor macc;
 	int use_smbus;
 
 	/*
@@ -393,6 +365,7 @@ static int at24_probe(struct i2c_client *client, const struct i2c_device_id *id)
 	int err;
 	unsigned i, num_addresses;
 	kernel_ulong_t magic;
+	unsigned write_max;
 
 	if (client->dev.platform_data) {
 		chip = *(struct at24_platform_data *)client->dev.platform_data;
@@ -456,6 +429,7 @@ static int at24_probe(struct i2c_client *client, const struct i2c_device_id *id)
 	at24->bin.write = at24_bin_write;
 	at24->bin.attr.mode |= S_IWUSR;
 	
+	write_max = chip.page_size;
 	if (write_max > io_limit)
 		write_max = io_limit;
 	at24->write_max = write_max;
@@ -473,9 +447,8 @@ static int at24_probe(struct i2c_client *client, const struct i2c_device_id *id)
 
 	i2c_set_clientdata(client, at24);
 
-	dev_info(&client->dev, "%zu byte %s EEPROM, %s, %u bytes/write\n",
-		at24->bin.size, client->name,
-		writable ? "writable" : "read-only", at24->write_max);
+	dev_info(&client->dev, "%zu byte %s EEPROM, %u bytes/write\n",
+		at24->bin.size, client->name, at24->write_max);
 	if (use_smbus == I2C_SMBUS_WORD_DATA ||
 	    use_smbus == I2C_SMBUS_BYTE_DATA) {
 		dev_notice(&client->dev, "Falling back to %s reads, "

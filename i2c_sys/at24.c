@@ -394,7 +394,7 @@ static int at24_probe(struct i2c_client *client, const struct i2c_device_id *id)
 
 	/* Use I2C operations unless we're stuck with SMBus extensions. */	
 	if (i2c_check_functionality(client->adapter,
-		I2C_FUNC_SMBUS_READ_BYTE_DATA)) {
+		I2C_FUNC_SMBUS_BYTE_DATA)) {
 		use_smbus = I2C_SMBUS_BYTE_DATA;
 	} else {
 		return -EPFNOSUPPORT;

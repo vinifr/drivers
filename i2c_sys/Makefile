@@ -1,14 +1,15 @@
 CROSS_COMPILE=arm-linux-gnueabihf-gcc
 ARCH=arm
 # make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
-# INSTALL_MOD_PATH=output modules_install	
 
-INCDIR = -I /home/vini/projs/texas/am3352/linux/include
+INCDIR = -I /home/vini/projs/broadcom/kernel/linux/include
+#/home/vini/projs/texas/am3352/linux/include
 
 ifneq ($(KERNELRELEASE),)
 obj-m := at24.o
 else
-KDIR := /home/vini/projs/texas/am3352/linux
+KDIR := /home/vini/projs/broadcom/kernel/linux
+#/home/vini/projs/texas/am3352/linux
 PWD := $(shell pwd)
 
 all:
